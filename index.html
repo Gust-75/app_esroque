@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>📦 Leitor e Contador de Estoque</h1>
+            <p>Contagem na Coluna C com exibição das Colunas D e G</p>
+        </header>
+
+        <!-- 1. Upload da Planilha -->
+        <section class="card">
+            <h2>1. Enviar Planilha Excel</h2>
+            <form id="form-upload" onsubmit="enviarPlanilha(event)">
+                <div class="upload-group">
+                    <input type="file" id="excel-file" accept=".xlsx, .xls" required>
+                    <button type="submit" class="btn btn-primary">Carregar Planilha</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- 2. Bipagem / Leitura do Código -->
+        <section class="card" id="secao-bipagem">
+            <h2>2. BIP / Digitação do Código (Coluna A)</h2>
+            <form id="form-bipar" onsubmit="biparItem(event)">
+                <div class="input-group">
+                    <input type="text" id="codigo-input" placeholder="Digite ou bipe o Código ML..." autocomplete="off" autofocus>
+                    <button type="submit" class="btn btn-success">Somar +1</button>
+                </div>
+            </form>
+
+            <div id="feedback" class="feedback"></div>
+
+            <!-- Card com Destaque para Coluna D e Coluna G -->
+            <div id="card-resultado" class="resultado-box" style="display: none;">
+                <div class="resultado-header">
+                    <span>Código: <strong id="res-codigo">-</strong></span>
+                    <span>Qtd Contada (Col C): <strong id="res-qtd" class="badge-qtd">0</strong></span>
+                </div>
+                <div class="resultado-grid">
+                    <div class="info-card">
+                        <small id="label-col-d">Coluna D</small>
+                        <h3 id="val-col-d">-</h3>
+                    </div>
+                    <div class="info-card">
+                        <small id="label-col-g">Coluna G</small>
+                        <h3 id="val-col-g">-</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Tabela -->
+        <section class="card">
+            <div class="table-header">
+                <h2>Visualização da Planilha</h2>
+                <a href="/api/download" class="btn btn-secondary" id="btn-download" style="display: none;">Baixar Excel Atualizado</a>
+            </div>
+
+            <div class="table-container">
+                <table id="tabela-estoque">
+                    <thead>
+                        <tr id="cabecalho-tabela"></tr>
+                    </thead>
+                    <tbody id="corpo-tabela">
+                        <tr><td colspan="6" style="text-align: center;">Nenhuma planilha carregada.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
